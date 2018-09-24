@@ -139,6 +139,7 @@ Token* Scanner::scan(){
       }
       else{ // since whitespaces are already detected before switch starts, other characters are invalid.
         value = "";
+        token = tError;
         _okay = false; 
       }
       break;
