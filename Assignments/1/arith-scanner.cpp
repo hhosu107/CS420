@@ -50,6 +50,14 @@ ostream& Token:print(ostream &out) const{
   return out;
 }
 
+ostream& operator<<(ostream &out, const Token &t){
+  return t.print(out);
+}
+
+ostream& operator<<(ostream &out, const Token *t){
+  return t->print(out);
+}
+
 Scanner::Scanner(istream *in){
   _in = in;
   _delete = false;

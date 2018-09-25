@@ -28,7 +28,7 @@ class Token{
     enumToken _type; // contains the type of the token
     string _value; // contains the value of the token
   public:
-    Token(enumToken type, const stringvalue="");
+    Token(enumToken type, const string value="");
     Token(const Token &token); // copy token from the reference
     Token(const Token *token); // copy token from the pointer
     static const string tokenName(enumToken type); // return the name of the token type for given type
@@ -40,23 +40,27 @@ class Token{
       return _value;
     } // return the value of the token
     ostream& print(ostream &out) const; // print the value of the token to the output stream
-}
+};
+
+ostream& operator<<(ostream &out, const Token &t);
+
+ostream& operator<<(ostream &out, const Token *t);
 
 class Scanner{
   private:
     istream * _in; // input stream
     bool _delete; // delete inpus stream when destruct
     bool _okay; // Does scanner has no error or not?
-    CToken * _token; // Contains the next token in the input stream 
+    Token * _token; // Contains the next token in the input stream 
     // vector<Token*> _token // vector of Token pointers from the input stream
   public:
     Scanner(istream *in); // Use stream operators like peek
     Scanner(string in); // Change string to string stream
     ~Scanner(); // destruct
 
-    CToken getNext(); // return and remove the next token
-    CToken peekNext() const; // peek the next token without removing it
-    book okay() const { return _okay }; // Check the status of the scanner
+    Token getNext(); // return and remove the next token
+    Token peekNext() const; // peek the next token without removing it
+    bool okay() const { return _okay; }; // Check the status of the scanner
     void nextToken(); // scan the next token
     Token* newToken(enumToken type, const string token); // initializing token by given information
     Token* scan(); // scan the input stream and return the next token
@@ -64,5 +68,5 @@ class Scanner{
     bool isDigit(char c) const; // check if a character is a digit = ('0', ..., '9')
     bool isAlphabet(char c) const; // check if a character is an alphabet = ('A', ..., 'Z', 'a', ..., 'z')
     bool isWhite(char c) const; // check if a character is a whitespace character = (' ', '\n', 't')
-
+};
 #endif
