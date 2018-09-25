@@ -7,7 +7,7 @@
 class Parser{
   private:
     Scanner *_scanner; // Scanner instance
-    AstNode *_node; // root node of the input
+    AstNode *_goal; // root node of the input
     Token _token; // current token in the scanner
     bool _error; // indicates any "incorrect syntax" error
 
