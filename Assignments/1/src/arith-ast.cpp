@@ -4,11 +4,29 @@
 #include"arith-ast.hpp"
 using namespace std;
 
+#define OPERATION_LEN 8
+
 int AstNode::_global_id = 0;
+
+char OperationName[][OPERATION_LEN] = {
+  "+",
+  "-",
+  "*",
+  "/"
+};
+
+ostream& operator<<(ostream &out, Operation t){
+  out << OperationName[t];
+  return out;
+}
 
 // AstNode
 AstNode::AstNode(Token token): _token(token) {
   _id = _global_id++;
+}
+
+AstNode::~AstNode(){
+
 }
 
 int AstNode::getID() const{

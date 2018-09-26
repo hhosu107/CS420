@@ -42,8 +42,12 @@ bool Parser::readToken(enumToken type, Token *token){
 }
 
 AstNode* Parser::goal(){
+  readToken(tStart); // Initial.
   AstNode *_goal = expression();
-  if(hasError() || _scanner->peekNext().getTokenType() != tEOF){
+  if(hasError()){
+    return NULL;
+  } else if( _scanner->peekNext().getTokenType() != tEOF){
+    setError();
     return NULL;
   }
   else return _goal;

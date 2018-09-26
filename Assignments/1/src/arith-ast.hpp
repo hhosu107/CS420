@@ -21,17 +21,7 @@ enum Operation{
   operationDiv
 };
 
-char OperationName[][OPERATION_LEN] = {
-  "+",
-  "-",
-  "*",
-  "/"
-};
-
-ostream& operator<<(ostream &out, Operation t){
-  out << OperationName[t];
-  return out;
-}
+ostream& operator<<(ostream &out, Operation t);
 
 // AST of arithmetic expression needs these type of nodes:
 // 1. Binary operation node: contains operator itself, contains left/right operand (one of three: binary operation node, identifier node, constand node). Nonterminal.

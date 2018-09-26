@@ -17,6 +17,7 @@ char enumTokenName[][TOKEN_LEN] = {
   "tID",
   "tPlusMinus",
   "tMulDiv",
+  "tStart",
   "tEOF",
   "tError",
   "tUndefined"
@@ -26,6 +27,7 @@ Token::Token(){
   _type = tUndefined;
   _value = "";
 }
+
 Token::Token(enumToken type, const string value){
   _type = type;
   _value = value;
@@ -66,14 +68,14 @@ Scanner::Scanner(istream *in){
   _in = in;
   _delete = false;
   _okay = true;
-  _token = NULL;
+  _token = new Token(tStart, "");
 }
 
 Scanner::Scanner(string in){
   _in = new istringstream(in);
   _delete = false;
   _okay = true;
-  _token = NULL;
+  _token = new Token(tStart, "");
 }
 
 Scanner::~Scanner(){
@@ -141,7 +143,7 @@ Token* Scanner::scan(){
         token = tNumber;
         // peek until characters other than digit found
         c = _in->peek();
-        while(!isDigit(c)){
+        while(isDigit(c)){
           value += getNextChar();
           c = _in->peek();
         }
@@ -165,14 +167,14 @@ char Scanner::getNextChar(){
   return _in->get();
 }
 
-bool isDigit(char c){
+bool Scanner::isDigit(char c) const{
   return (c >= '0' && c <= '9');
 }
 
-bool isAlphabet(char c){
+bool Scanner::isAlphabet(char c) const{
   return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
 }
 
-bool isWhite(char c){
+bool Scanner::isWhite(char c) const{
   return (c == ' ' || c == '\n' || c == '\t' || c == 'r');
 }

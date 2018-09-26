@@ -17,6 +17,7 @@ enum enumToken{
   tID, // Identifier := alphabet
   tPlusMinus, // PlusMinus := '+' | '-'
   tMulDiv, // MulDiv := '*' | '/'
+  tStart,
   tEOF, // Indicating the end of the line.
   tError, // any error on the scanner: character is not a value included in digit or alphabet.
   tUndefined // Initial token.
