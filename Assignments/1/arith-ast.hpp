@@ -66,6 +66,7 @@ class AstBinaryOp : public AstExpression{
     AstExpression *_left;
     AstExpression *_right;
   public:
+    AstBinaryOp(Token token, Operation op, AstExpression *right);
     AstBinaryOp(Token token, Operation op, AstExpression *left, AstExpression *right);
     Operation getOperation() const;
     AstExpression* getLeft() const;

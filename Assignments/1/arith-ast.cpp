@@ -33,9 +33,15 @@ AstExpression::AstExpression(Token token) : AstNode(token) {
 }
 
 // AstBinaryOp
+AstBinaryOp::AstBinaryOp(Token token, Operation op, AstExpression *right): AstExpression(token), _op(op), _right(right) {
+  assert((op == operationAdd) || (op == operationSub) ||
+      (op == operationMul) || (op == operationDiv));
+  assert(right != NULL);
+}
 AstBinaryOp::AstBinaryOp(Token token, Operation op, AstExpression *left, AstExpression *right): AstExpression(token), _op(op), _left(left), _right(right) {
   assert((op == operationAdd) || (op == operationSub) ||
       (op == operationMul) || (op == operationDiv));
+  assert(left != NULL);
   assert(right != NULL);
 }
 

@@ -22,7 +22,11 @@ char enumTokenName[][TOKEN_LEN] = {
   "tUndefined"
 };
 
-Token::Token(enumToken type, const stringvalue){
+Token::Token(){
+  _type = tUndefined;
+  _value = "";
+}
+Token::Token(enumToken type, const string value){
   _type = type;
   _value = value;
 }
@@ -37,15 +41,15 @@ Token::Token(const Token *token){
   _value = token->getTokenValue();
 }
 
-static const string Token::tokenName(enumToken type){
+const string Token::tokenName(enumToken type){
   return string(enumTokenName[type]);
 }
 
-const string Token::getTokenName(){
+const string Token::getTokenName() const{
   return string(enumTokenName[getTokenType()]);
 }
 
-ostream& Token:print(ostream &out) const{
+ostream& Token::print(ostream &out) const{
   out << getTokenValue();
   return out;
 }
@@ -96,8 +100,8 @@ void Scanner::nextToken(){
   _token = scan(); // fill in the next token
 }
 
-Token* Scanner::scan(){
-  // Rule-based scan
+Token* Scanner::newToken(enumToken token){
+  return new Token(token);
 }
 
 Token* Scanner::newToken(enumToken token, const string value){

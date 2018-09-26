@@ -28,6 +28,7 @@ class Token{
     enumToken _type; // contains the type of the token
     string _value; // contains the value of the token
   public:
+    Token(); // undefined token
     Token(enumToken type, const string value="");
     Token(const Token &token); // copy token from the reference
     Token(const Token *token); // copy token from the pointer
@@ -62,6 +63,7 @@ class Scanner{
     Token peekNext() const; // peek the next token without removing it
     bool okay() const { return _okay; }; // Check the status of the scanner
     void nextToken(); // scan the next token
+    Token* newToken(enumToken type); // tokens with empty string
     Token* newToken(enumToken type, const string token); // initializing token by given information
     Token* scan(); // scan the input stream and return the next token
     char getNextChar(); // next character in the input stream
