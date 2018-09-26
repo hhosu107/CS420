@@ -51,7 +51,7 @@ ostream& operator<<(ostream &out, const Token *t);
 class Scanner{
   private:
     istream * _in; // input stream
-    bool _delete; // delete inpus stream when destruct
+    bool _delete; // delete input stream when destruct
     bool _okay; // Does scanner has no error or not?
     Token * _token; // Contains the next token in the input stream 
     // vector<Token*> _token // vector of Token pointers from the input stream

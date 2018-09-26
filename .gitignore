@@ -10,9 +10,8 @@
 # ignore files with extensions '.o'
 *.o
 
-# ignore 'bin', 'obj' dir
+# ignore 'obj' dir
 */obj/*
-*/bin/*
 
 # unignore Makefile
 
