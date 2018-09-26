@@ -1,0 +1,202 @@
+\documentclass[11pt]{article} 
+\usepackage{amssymb, amsmath, amsthm}
+\usepackage{tikz, graphicx, color, mathrsfs, rotating}
+\usepackage{titlesec, lipsum}
+\usepackage{fancyhdr, framed, chngcntr}
+
+\usetikzlibrary{arrows,shapes,automata,backgrounds,decorations,petri,positioning,patterns}
+
+
+\paperwidth = 8.5in
+\paperheight = 11in
+\textwidth = 6.5 in
+\textheight = 9 in
+\oddsidemargin = 0 in
+\evensidemargin = 0 in
+\topmargin = -.25 in
+\headheight = 0.0 in
+\headsep = .25 in
+\footskip = .25in
+
+
+\newtheorem*{repp@prob}{\repp@title}
+\newcommand{\newreppprob}[2]{
+\newenvironment{repp#1}[1]{
+ \def\repp@title{#2 {##1}}
+ \begin{repp@prob}}
+ {\end{repp@prob}}}
+\makeatother
+\newreppprob{prob}{Problem}
+
+\newtheorem*{repp@thm}{\repp@title}
+\newcommand{\newreppthm}[2]{
+\newenvironment{repp#1}[1]{
+ \def\repp@title{#2 {##1}}
+ \begin{repp@thm}}
+ {\end{repp@thm}}}
+\makeatother
+\newreppthm{thm}{Theorem}
+
+
+% -----------------------------------------------------------------------------
+%             Macros for the course
+% -----------------------------------------------------------------------------
+\newcommand{\TS}{\mathcal{T}} % symbol for a topological space
+\newcommand{\BS}{\mathcal{B}} % symbol for a basis
+\newcommand{\R}{\mathbb{R}} % symbol for real numbers
+\newcommand{\Z}{\mathbb{Z}} % symbol for integers
+\newcommand{\Q}{\mathbb{Q}} % symbol for rational numbers
+\newcommand{\PS}{\mathscr{P}} % symbol for power set
+\newcommand{\E}{\mathbf{E}} % symbol for real numbers with Euclidean topology
+\newcommand{\F}{\mathbf{F}^1} % symbol for real numbers with finite-complement topology
+\renewcommand{\H}{\mathbf{H}^1} % symbol for real numbers with half-open topology
+\renewcommand{\S}{\mathcal{S}} % basis topology
+\newcommand{\B}{\mathbf{B}} % symbol for ball
+\newcommand{\Sp}{\mathbf{S}} % symbol for sphere
+\renewcommand{\int}{\operatorname{int}} % symbol for interior
+\newcommand{\bnd}{\partial} % symbol for boundary
+\newcommand{\homeo}{\approx} % symbol for homeomorphic
+
+
+\begin{document} 
+
+
+% -----------------------------------------------------------------------------
+%             Start here
+% -----------------------------------------------------------------------------
+
+{\large
+\noindent School of Computing %% replace "date" by the date on which the assignment was made
+\hfill Chansu Park %% replace "Name" by your name
+
+\vspace{.1in}
+
+\noindent \today \hfill 20173245}
+
+\vspace{.25in}
+
+% -----------------------------------------------------------------------------
+%             Erase or rearrange the options below, as necessary
+% -----------------------------------------------------------------------------
+\Large{
+\begin{center}
+\textbf{CS420}
+
+Fall 2018, Assignment \#1
+\end{center}
+}
+
+\large
+
+% -----------------------------------------------------------------------------
+%             Template for typing up an Exercise
+% -----------------------------------------------------------------------------
+\section{Policies of this project} \label{sec:1}
+\subsection{How to make and execute} \label{ssec:1.1}
+This coursework has been built on \texttt{g++ 7.3.0} with \texttt{Ubuntu 18.04}. The language is \texttt{C++}. \\
+There are four source codes: \texttt{arith-ast.cpp}, \texttt{arith-scanner.cpp}, \texttt{arith-parser.cpp} and \texttt{arith-main.cpp} in the folder \texttt{src}. \\
+You can find \texttt{Makefile} in the root. The command \texttt{make} or \texttt{make arith-main} compiles all source code and generate an executable \texttt{arith-main} in the folder \texttt{bin} which takes \texttt{input.txt} and prints the result into \texttt{output.txt}. Since the input name was fixed as \texttt{input.txt}, the implementation only accepts an input file names as \texttt{input.txt}. Note that input.txt should be located in the folder that you execute \texttt{arith-main}. (For instance, if you execute at the root folder, the command will be \texttt{./bin/arith-main}, where \texttt{input.txt} should be located in the root. ) I located the sample \texttt{input.txt} and \texttt{output.txt} in the \texttt{bin} folder. \\
+Finally, you can find this report in the root folder.
+
+\subsection{Assumed points} \label{ssec:1.2}
+\begin{itemize}
+	\item [$\bullet$] I assumed that the empty line itself wouldn't be an input.
+	\item [$\bullet$] I followed left-associative form.
+	\item [$\bullet$] I filtered only digits and alphabets (both in UPPERCASE and lowercase) as valid characters.
+	\item [$\bullet$] I don't allow numbers starting with 0s.
+	\item [$\bullet$] For each input line, I take them as a \texttt{stringstream} object.
+\end{itemize}
+
+\section{Implementation} \label{sec:2}
+
+\subsection{Scanner} \label{ssec:2.1}
+Scanner needs toknization. I defined tokens as a class \texttt{Token} in the scanner:
+\begin{center}
+\begin{tabular}{|l|l|}
+	\hline
+	Data Types & \texttt{tNumber, tID} \\ \hline
+	Arithmetic Operators & \texttt{tPlusMinus, tMulDiv} \\ \hline
+	Special Tokens & \texttt{tStart, tEOF, tError, tUndefined} \\ \hline
+\end{tabular}
+\end{center}
+First two rows are obvious. For the third row:
+\begin{itemize}
+	\item [\texttt{tStart}:] The dummy token that alerts scanner to initialize new scan. Thus the scanner has a \texttt{tStart} token when it is initialized.
+	\item [\texttt{tEOF}:] When the given \texttt{stringstream} input meets \texttt{EOF}, put \texttt{tEOF}.
+	\item [\texttt{tError}:] Whenever it meets invalid character, token becomes \texttt{tError} since this error is scanning error.
+	\item [\texttt{tUndefined}:] When initializing an empty token, it becomes \texttt{tUndefined} token.
+\end{itemize}
+
+Note that, since our aim is constructing LL(1) parser, the scanner saves only one token at a time. Whenever scanner detect new token, it serves that token to the parser if needed and read new token.
+
+There are several methods in the class \texttt{Scanner}. I took a note for some important methods for this scanner.
+\begin{itemize}
+	\item [\texttt{scan()}:] This method scans new valid token. It first ignores all whitespaces. When it meets one of the arithmetic operators, it saves a new token either \texttt{tPlusMinus} or \texttt{tMulDiv}. When it meets alphabet, it saves a new identifier token \texttt{tID} with its name. When it meets digit, it peeks and reads next character until it faces non-digit character, and save it as a string in the \texttt{tNumber} token.
+	\item [\texttt{nextToken()}:] It deletes current token and perform \texttt{scan()} to get a new token.
+	\item [\texttt{getNext()}:] It copies current token, call \texttt{nextToken()} to perform a new scan, and return the copied token.
+	\item [\texttt{peekNext()}:] It checks current token and returns.
+\end{itemize}
+
+\subsection{Abstract Syntax Tree} \label{ssec:2.2}
+The input expression can be realized as an arithmetic tree. For now, every node is an implementation of virtual class \texttt{AstExpression}. \texttt{AstExpression} node can be realized on of two types of nodes where the second type of nodes can be derived into two different types.
+\begin{itemize}
+	\item [1.] Binary operation nodes (\texttt{AstBinaryOp}): It has one of the four arithmetic operators as a value and has two childs.
+	\item [2.] Operand nodes (\texttt{AstOperand}): It is a leaf node and has a string itself as a value.
+	\begin{itemize}
+		\item [2.1] Identifier nodes (\texttt{AstIdent}): Identifier node. It contains the name of the identifier.
+		\item [2.2] Constant nodes (\texttt{AstConstant}): Constant node. Currently only numbers (multi-digit) will be accepted in this form.
+	\end{itemize}
+\end{itemize}
+Note that any node contains the corresponding token.
+
+\subsection{Parser} \label{ssec:2.3}
+
+Parser peeks the next token of scanner to decide whether or not that token has a type where the current rule needs. Then it reads that token and let scanner to prepare the next token. You can see the phenomena in the \texttt{nextToken(...)} function of the parser. \\
+Also there are functions that correspond to each terminal/non-terminal symbol.
+\begin{itemize}
+	\item [\texttt{goal()}:] It has a return type \texttt{AstNode*}. Since it is a starting symbol, it first reads \texttt{tStart} token and call \texttt{expression()}. If \texttt{expression()} returns \texttt{NULL} or the next token is not \texttt{tEOF}, it generates an error.
+	\item [\texttt{expression()}:] It has a return type \texttt{AstExpression*}. Call \texttt{term()}, check an error, and call \texttt{expressionP()}. Only if \texttt{expressionP()} returns a partial \texttt{AstBinaryOp} pointer, it attaches the result of \texttt{term()} as a left child of that pointer and return. Otherwise it returns the result of \texttt{term()} itself.
+	\item [\texttt{expressionP()}:] It has a return type \texttt{AstBinaryOp*}. If ``+'' or ``-'' is detected, it reads that token, call \texttt{expression()} and check whether or not it is empty, since then the right operand is needed. Then it generates the node with empty left. If it fails to detect ``+'' or ``-'' at the beginning, it returns \texttt{NULL} without error.
+	\item [\texttt{term()}:] Similar to \texttt{expression()}: change corresponding \texttt{term()} to \texttt{factor()}; \texttt{expressionP()} to \texttt{termP()}.
+	\item [\texttt{termP()}:] Similar to \texttt{expressionP()}: change corresponding ``+'' or ``-'' to ``*'' or ``/''; \texttt{expression()} to \texttt{term()}.
+	\item [\texttt{factor()}:] It has a return type \texttt{AstOperand*}. If the next token is either \texttt{tIdent} or \texttt{tNumber}, return the corresponding token with value using \texttt{ident()} and \texttt{constant()}.
+\end{itemize}
+
+\section{Sample input and output}
+Here are some valid/invalid inputs and corresponding outputs in the left-associative form:
+\begin{center}
+	\begin{tabular}{|l|l|}
+		\hline
+		Input & Output \\ \hline
+		\texttt{x-2*y} & \texttt{-x*2y} \\ \hline
+		\texttt{a + 35 - b} & \texttt{+a-35b} (Ignores whitespaces, left-associative) \\ \hline
+		\texttt{10+*5} & incorrect syntax (``*'' after ``+'') \\ \hline
+		\texttt{10 20}, \texttt{a 2}, \texttt{2 a}, \texttt{a b} & incorrect syntax (two consequent operands without operators) \\ \hline
+		\texttt{2a}, \texttt{a2} & incorrect syntax (ID and digits are attached without spaces) \\ \hline
+		\texttt{ab} & incorrect syntax (ID can have only 1 character) \\ \hline
+		\texttt{1\%2} & incorrect syntax (invalid character detected) \\ \hline
+		\texttt{035} & incorrect syntax (number starting with 0) \\ \hline
+	\end{tabular}
+\end{center}
+%\begin{proof}[Solution.]
+%% write your solution here
+%\end{proof}
+
+
+% -----------------------------------------------------------------------------
+%             Template for typing up a Theorem
+% -----------------------------------------------------------------------------
+%\begin{reppthm}{42} %% replace "42" by the relevant Theorem number
+%% restate the Theorem here
+%\end{reppthm}
+
+%\begin{proof}
+%% write your proof here
+%\end{proof}
+
+
+% -----------------------------------------------------------------------------
+%             End here
+% -----------------------------------------------------------------------------
+
+\end{document}
