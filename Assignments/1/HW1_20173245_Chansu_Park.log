@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2017.1.8)  27 SEP 2018 02:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2017.1.8)  27 SEP 2018 02:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -674,14 +674,14 @@ File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 ) [1
 
 {c:/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
-Overfull \hbox (19.71425pt too wide) in paragraph at lines 158--159
+Overfull \hbox (19.71425pt too wide) in paragraph at lines 159--160
 []\OT1/cmr/m/n/12 It has a re-turn type \OT1/cmtt/m/n/12 AstExpression*\OT1/cmr
 /m/n/12 . Call \OT1/cmtt/m/n/12 term()\OT1/cmr/m/n/12 , check an er-ror, and ca
 ll \OT1/cmtt/m/n/12 expressionP()\OT1/cmr/m/n/12 .
  []
 
 
-Overfull \hbox (8.85364pt too wide) in paragraph at lines 161--162
+Overfull \hbox (8.85364pt too wide) in paragraph at lines 162--163
 []\OT1/cmr/m/n/12 Similar to \OT1/cmtt/m/n/12 expressionP()\OT1/cmr/m/n/12 : ch
 ange cor-re-spond-ing ``+'' or ``-'' to ``*'' or ``/''; \OT1/cmtt/m/n/12 expres
 sion()
@@ -701,7 +701,7 @@ ublic/amsfonts/cm/cmbx12.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/ams
 fonts/cm/cmr10.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mr12.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
 <c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on HW1_20173245_Chansu_Park.pdf (3 pages, 67262 bytes).
+Output written on HW1_20173245_Chansu_Park.pdf (3 pages, 67947 bytes).
 PDF statistics:
  37 PDF objects out of 1000 (max. 8388607)
  26 compressed objects within 1 object stream

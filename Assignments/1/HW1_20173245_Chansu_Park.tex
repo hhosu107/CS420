@@ -147,7 +147,8 @@ The input expression can be realized as an arithmetic tree. For now, every node 
 		\item [2.2] Constant nodes (\texttt{AstConstant}): Constant node. Currently only numbers (multi-digit) will be accepted in this form.
 	\end{itemize}
 \end{itemize}
-Note that any node contains the corresponding token.
+Note that any node contains the corresponding token. \\
+Also every node has its own \texttt{print(ostream\&)} function which prints a subtree in preorder. For \texttt{AstBinaryOp} pointers, it first prints the operand, and then call the \texttt{print(...)} function of left and right consequently. \texttt{AstOperand} pointers just print its own value. After the final root node from \texttt{goal()} arrives to \texttt{arith-main}, it calls the \texttt{print()} functino of the return value to print everything.
 
 \subsection{Parser} \label{ssec:2.3}
 
