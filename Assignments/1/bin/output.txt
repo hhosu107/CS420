@@ -1,4 +1,3 @@
-incorrect syntax
 -x*2y
 +a-35b
 incorrect syntax
@@ -7,8 +6,9 @@ incorrect syntax
 incorrect syntax
 incorrect syntax
 incorrect syntax
-/x/2y
 incorrect syntax
 incorrect syntax
-+*1294/8212
+incorrect syntax
 +*1/23+4-5-/68-/9*10a+/b*cde
+incorrect syntax
+incorrect syntax

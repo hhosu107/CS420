@@ -19,15 +19,17 @@ int main(){
     s = new Scanner(_line);
     p = new Parser(s);
 
-    AstNode *goal = p->parse();
+    AstNode *goal = p->parse(); // parse
     if(p->hasError()){
       _out << "incorrect syntax" << endl;
     }
-    else{
+    else{ // if there is no error, then goal should not be empty unless the input itself is empty
       assert(goal != NULL);
       goal->print(_out);
       _out << endl;
     }
+    delete s;
+    delete p;
   }
   _in.close();
   _out.close();

@@ -33,7 +33,7 @@ bool Parser::readToken(enumToken type, Token *token){
   // if there is already an error, stop and return false
   if(_error) return false;
 
-  Token t = _scanner->getNext();
+  Token t = _scanner->getNext(); // get token and prepare scanner to send next token
   if(t.getTokenType() != type){
     setError();
   }
@@ -42,11 +42,11 @@ bool Parser::readToken(enumToken type, Token *token){
 }
 
 AstNode* Parser::goal(){
-  readToken(tStart); // Initial.
+  readToken(tStart); // Initial virtual token.
   AstNode *_goal = expression();
-  if(hasError()){
+  if(hasError()){ // Skip all others.
     return NULL;
-  } else if( _scanner->peekNext().getTokenType() != tEOF){
+  } else if( _scanner->peekNext().getTokenType() != tEOF){ // In some cases, expression() might return NULL without calling setError().
     setError();
     return NULL;
   }
@@ -56,7 +56,7 @@ AstNode* Parser::goal(){
 AstExpression* Parser::expression(){
   AstExpression* _term = term();
   AstBinaryOp* _exprp = NULL;
-  if(hasError()){
+  if(hasError()){ // Skip all others.
     return NULL;
   }
   else{
@@ -64,7 +64,7 @@ AstExpression* Parser::expression(){
     if(hasError()){
       return NULL;
     }
-    if(_exprp != NULL){
+    if(_exprp != NULL){ // _exprp might be empty.
       Operation _opp = _exprp->getOperation();
       AstExpression* _rightp = _exprp->getRight();
       Token _tp = _exprp->getToken();
@@ -81,8 +81,8 @@ AstBinaryOp* Parser::expressionP(){
   Operation binOp;
   AstExpression *right = NULL;
   if(_scanner->peekNext().getTokenType() == tPlusMinus){
-    readToken(tPlusMinus, &token);
-    right = expression();
+    readToken(tPlusMinus, &token); // take "+" or "-"
+    right = expression(); // Then expression() shouldn't be empty.
     if(hasError() || right == NULL){
       setError();
       return NULL;
@@ -99,7 +99,7 @@ AstBinaryOp* Parser::expressionP(){
 AstExpression* Parser::term(){
   AstExpression* _factor = factor();
   AstBinaryOp* _termp = NULL;
-  if(hasError()){
+  if(hasError()){ // skip all others
     return NULL;
   }
   else{
@@ -125,7 +125,7 @@ AstBinaryOp* Parser::termP(){
   AstExpression *right = NULL;
   if(_scanner->peekNext().getTokenType() == tMulDiv){
     readToken(tMulDiv, &token);
-    right = term();
+    right = term(); // then right should not be empty.
     if(hasError() || right == NULL){
       setError();
       return NULL;
@@ -153,13 +153,13 @@ AstOperand* Parser::factor(){
   }
 }
 
-AstIdent* Parser::ident(){
+AstIdent* Parser::ident(){ // cannot make error without semantic-checking
   Token token;
   readToken(tID, &token);
   return new AstIdent(token, token.getTokenValue());
 }
 
-AstConstant* Parser::constant(){
+AstConstant* Parser::constant(){ // cannot make error without semantic-checking
   Token token;
   readToken(tNumber, &token);
   return new AstConstant(token, token.getTokenValue());

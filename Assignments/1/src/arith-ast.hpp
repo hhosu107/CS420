@@ -25,8 +25,9 @@ ostream& operator<<(ostream &out, Operation t);
 
 // AST of arithmetic expression needs these type of nodes:
 // 1. Binary operation node: contains operator itself, contains left/right operand (one of three: binary operation node, identifier node, constand node). Nonterminal.
-// 2. Identifier node: contains a name of identifier. Terminal.
-// 3. Constant node: contains a multi-digit string. Terminal.
+// 2. Operand node: contains an identifier or a constant.
+// 2-1. Identifier node: contains a name of identifier. Terminal.
+// 2-2. Constant node: contains a multi-digit string. Terminal.
 class AstNode{ // base node for all node types in the AST
   private:
     Token _token; // token in input stream that triggered this node
@@ -56,15 +57,15 @@ class AstBinaryOp : public AstExpression{
     AstExpression *_left;
     AstExpression *_right;
   public:
-    AstBinaryOp(Token token, Operation op, AstExpression *right);
-    AstBinaryOp(Token token, Operation op, AstExpression *left, AstExpression *right);
+    AstBinaryOp(Token token, Operation op, AstExpression *right); // for expressionP() and termP()
+    AstBinaryOp(Token token, Operation op, AstExpression *left, AstExpression *right); // for expression() and term()
     Operation getOperation() const;
     AstExpression* getLeft() const;
     AstExpression* getRight() const;
     ostream& print(ostream& out) const;
 };
 
-class AstOperand : public AstExpression{
+class AstOperand : public AstExpression{ // factor
   public:
     AstOperand(Token token);
 };

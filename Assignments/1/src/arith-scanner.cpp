@@ -68,14 +68,14 @@ Scanner::Scanner(istream *in){
   _in = in;
   _delete = false;
   _okay = true;
-  _token = new Token(tStart, "");
+  _token = new Token(tStart, ""); // Initialize with dummy token indicating start (expression doesn't contain any initializing symbol)
 }
 
 Scanner::Scanner(string in){
   _in = new istringstream(in);
   _delete = false;
   _okay = true;
-  _token = new Token(tStart, "");
+  _token = new Token(tStart, ""); // Initialize with dummy token indicating start (expression doesn't contain any initializing symbol)
 }
 
 Scanner::~Scanner(){
@@ -84,16 +84,16 @@ Scanner::~Scanner(){
 }
 
 Token Scanner::getNext(){
-  Token result(_token); // prepare the next token: note that this initializer copies the content, so changing _token doesn't affect.
+  Token result(_token); // prepare the current token so that parser recognizes next token
 
   enumToken type = _token->getTokenType();
   _okay = !(type == tError); // check the current token: tError or not
 
-  nextToken(); // and get the next token and return itself
+  nextToken(); // and prepare the next token in scanner
   return result;
 }
 
-Token Scanner::peekNext() const{
+Token Scanner::peekNext() const{ // return current token to parser so that parser recognizes next token
   return Token(_token);
 }
 

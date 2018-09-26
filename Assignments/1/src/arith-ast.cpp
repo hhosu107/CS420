@@ -46,24 +46,24 @@ ostream& operator<<(ostream &out, const AstNode *t){
 }
 
 // AstExpression
-AstExpression::AstExpression(Token token) : AstNode(token) {
+AstExpression::AstExpression(Token token) : AstNode(token) { // wrapper
 
 }
 
 // AstBinaryOp
-AstBinaryOp::AstBinaryOp(Token token, Operation op, AstExpression *right): AstExpression(token), _op(op), _right(right) {
+AstBinaryOp::AstBinaryOp(Token token, Operation op, AstExpression *right): AstExpression(token), _op(op), _right(right) { // from Prime-d ones
   assert((op == operationAdd) || (op == operationSub) ||
       (op == operationMul) || (op == operationDiv));
   assert(right != NULL);
 }
-AstBinaryOp::AstBinaryOp(Token token, Operation op, AstExpression *left, AstExpression *right): AstExpression(token), _op(op), _left(left), _right(right) {
+AstBinaryOp::AstBinaryOp(Token token, Operation op, AstExpression *left, AstExpression *right): AstExpression(token), _op(op), _left(left), _right(right) { // from original ones
   assert((op == operationAdd) || (op == operationSub) ||
       (op == operationMul) || (op == operationDiv));
   assert(left != NULL);
   assert(right != NULL);
 }
 
-Operation AstBinaryOp::getOperation() const{
+Operation AstBinaryOp::getOperation() const{ // return corresponding operation
   return _op;
 }
 
@@ -101,7 +101,7 @@ ostream& AstIdent::print(ostream &out) const{
   return out;
 }
 
-// AstConstand
+// AstConstant
 AstConstant::AstConstant(Token token, string value) : AstOperand(token), _value(value){
 
 }
