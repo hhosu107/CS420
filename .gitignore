@@ -14,5 +14,9 @@
 */obj/*
 
 # unignore Makefile
-
 !Makefile
+
+# ignore executables of tex
+*.aux
+*.log
+*.synctex.gz
