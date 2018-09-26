@@ -13,3 +13,7 @@
 # ignore 'bin', 'obj' dir
 */obj/*
 */bin/*
+
+# unignore Makefile
+
+!Makefile
