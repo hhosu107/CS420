@@ -142,10 +142,16 @@ Token* Scanner::scan(){
       if(isDigit(c)){
         token = tNumber;
         // peek until characters other than digit found
-        c = _in->peek();
-        while(isDigit(c)){
+        char n = _in->peek();
+        while(isDigit(n)){
+          if(c == '0'){
+            value = "";
+            token = tError;
+            _okay = false;
+            break;
+          }
           value += getNextChar();
-          c = _in->peek();
+          n = _in->peek();
         }
       }
       else if(isAlphabet(c)){
