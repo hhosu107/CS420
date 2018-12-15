@@ -3,6 +3,11 @@
 #define YOURPOLICY1_HPP
 
 #include "Policy.hpp"
+/*
+typedef struct BestCand{
+  void* prev_end;
+  int size;
+} BestCand; */
 
 class YourPolicy1 : public Policy
 {

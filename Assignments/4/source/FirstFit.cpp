@@ -4,9 +4,6 @@
 #include "defines.hpp"
 #include <thread>
 
-int defragmentPrepareEnd(int target_size);
-int defragmentPrepareFront(int target_size);
-
 void* FirstFit::onMalloc(int size)
 {
 	MemoryStructure* ms = MemoryStructure::getInstance();

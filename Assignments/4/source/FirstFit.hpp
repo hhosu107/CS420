@@ -3,7 +3,8 @@
 #define FIRSTFIT_HPP
 
 #include "Policy.hpp"
-
+int defragmentPrepareEnd(int target_size);
+int defragmentPrepareFront(int target_size);
 class FirstFit : public Policy
 {
 public:
